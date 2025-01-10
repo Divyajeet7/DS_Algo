@@ -1,0 +1,56 @@
+// User function template for C++
+
+/*
+
+struct Node
+{
+    int data;
+    struct Node* next;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+    Node* rev(Node* head){
+        Node* r = NULL;
+        Node* q = NULL;
+        Node* p = head;
+        while(p!=NULL){
+            r=q;
+            q=p;
+            p=p->next;
+            q->next = r;
+        }
+        return q;
+    }
+    Node* addOne(Node* head) {
+        // Your Code here
+        // return head of list after adding one
+        Node* headAfterRev = rev(head);
+        Node* mover = headAfterRev;
+        while(mover != NULL){
+            mover->data+=1;
+            if(mover->data>9){
+                mover->data = 0;
+                if(mover->next!=nullptr){ 
+                  mover = mover->next;
+                }
+                else{
+                    Node* temp = new Node(0);
+                    mover->next = temp;
+                    mover = mover->next;
+                }
+            }
+            else{
+                break;
+            }
+        }
+        return rev(headAfterRev);
+    }
+};
