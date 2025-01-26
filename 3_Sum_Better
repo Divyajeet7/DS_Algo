@@ -1,0 +1,20 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        set<vector<int>> st;
+        for (int i = 0; i < nums.size(); i++) {
+            unordered_set<int> st1; // This set empties everytime i loop is re-initialized, we empty this so as to not take repetitive elements, we only consider unique elements
+            for (int j = i + 1; j < nums.size(); j++) {
+                int third = -(nums[i] + nums[j]); // since total sum needs to be 0, we essentially look for a number which is i + j + k == 0 i.e third = -(i + j)
+                if (st1.find(third) != st1.end()) {
+                    vector<int> temp = {nums[i], nums[j], third};
+                    sort(temp.begin(), temp.end()); // sorting and storing so as to avoid duplicate triplets
+                    st.insert(temp);
+                }
+                st1.insert(nums[j]); // adding the number to the set whenever j moves forward
+            }
+        }
+        vector<vector<int>> ans(st.begin(), st.end());
+        return ans;
+    }
+};
