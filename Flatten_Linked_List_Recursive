@@ -1,0 +1,93 @@
+/* Node structure  used in the program
+
+struct Node{
+    int data;
+    struct Node * next;
+    struct Node * bottom;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+        bottom = NULL;
+    }
+
+};
+*/
+
+class Solution {
+  public:
+    Node* mergeTwoLists(Node* list1, Node* list2) {
+        if(list1 == NULL)return list2;
+        if(list2 == NULL)return list1;
+        Node* list3 = NULL;
+        Node* last = NULL;
+            if(list1->data <= list2->data){
+                list3 = list1;
+                last = list1;
+                list1 = list1->bottom;
+                last->bottom = nullptr;
+            }
+            else{
+                list3 = list2;
+                last = list2;
+                list2 = list2->bottom;
+                last->bottom = nullptr;
+            }
+        while(list1 && list2){
+            if(list1->data <= list2->data){
+                last->bottom = list1;
+                last = last->bottom;
+                list1 = list1->bottom;
+                last->bottom = nullptr;
+            }
+            else{
+                last->bottom = list2;
+                last = last->bottom;
+                list2 = list2->bottom;
+                last->bottom = nullptr;
+            }
+        }
+        if(list1 != NULL)last->bottom = list1;
+        if(list2 != NULL)last->bottom = list2;
+        return list3;
+    }
+    // Function which returns the  root of the flattened linked list.
+    Node *flatten(Node *root) {
+        // Your code here
+        // if(root->data == NULL)return root;
+        // vector<int>ans;
+        // Node* curr = root;
+        // while(curr){
+        //     // ans.push_back(curr->data);
+        //     Node* temp = curr;
+        //     while(temp){
+        //         ans.push_back(temp->data);
+        //         temp = temp->bottom;
+        //     }
+        //     curr = curr->next;
+        // }
+        // sort(ans.begin(),ans.end());
+        // Node* final = new Node(ans[0]);
+        // Node* finalMover = final;
+        // for(int i=1;i<ans.size();i++){
+        //     Node* temp = new Node(ans[i]);
+        //     finalMover->bottom = temp;
+        //     finalMover = finalMover->bottom;
+        // }
+        // return final;
+        
+        // Node* mover = root;
+        // Node* ans = NULL;
+        // while (mover){
+        //     Node* list1 = mover;
+        //     mover = mover->next;
+        //     list1->next = nullptr;
+        //     ans = mergeTwoLists(ans,list1);
+        // }
+        // return ans;
+        if(root == NULL || root->next == NULL)return root;
+        Node* mergedHead = flatten(root->next);
+        root = mergeTwoLists(root,mergedHead);
+        return root;
+    }
+};
