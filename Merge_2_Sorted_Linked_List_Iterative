@@ -1,0 +1,52 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        if(list1 == NULL)return list2;
+        if(list2 == NULL)return list1;
+        ListNode* third = NULL;
+        ListNode* last = NULL;
+        if(list1->val < list2->val){
+            third = list1; // Bring the third pointer to first
+            last = list1; // Bring the last pointer to first
+            list1 = list1->next; // Move the list1 pointer to next, before making last node point to nullptr (Imp)
+            last->next = nullptr; // If you make the last pointer point to nullptr before moving the list1 pointer to next, both list1 and last pointer will be pointing to nullptr as they were on the same node before
+        }
+        else{
+            third = list2; // Bring the third pointer to second
+            last = list2; // Bring the last pointer to second
+            list2 = list2->next; // Move the list2 pointer to next, before making last node point to nullptr (Imp)
+            last->next = nullptr; // If you make the last pointer point to nullptr before moving the list1 pointer to next, both list1 and last pointer will be pointing to nullptr as they were on the same node before
+        }
+        while(list1 != NULL && list2 != NULL){
+            if(list1->val < list2->val){
+            last->next = list1; // Make the last pointer's next point to list1 instead of nullptr
+            last = list1; // Moving the last pointer ahead , this statement can also be written as last = last->next
+            list1 = list1->next; // Move the list1 pointer to next, before making last node point to nullptr (Imp)
+            last->next = nullptr; // Making the last->next point to nullptr
+        }
+        else{
+            last->next = list2; // Same as list1
+            last = list2;
+            list2 = list2->next;
+            last->next = nullptr;
+        }
+        }
+        if(list1 != NULL){
+            last->next = list1; // If after while loop any nodes left in list1, then make last->next point to remaining list1
+        }
+        else{
+            last->next = list2; // If after while loop any nodes left in list2, then make last->next point to remaining list1
+        }
+        return third;
+    }
+};
