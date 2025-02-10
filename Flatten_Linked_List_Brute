@@ -1,0 +1,44 @@
+/* Node structure  used in the program
+
+struct Node{
+    int data;
+    struct Node * next;
+    struct Node * bottom;
+
+    Node(int x){
+        data = x;
+        next = NULL;
+        bottom = NULL;
+    }
+
+};
+*/
+
+class Solution {
+  public:
+    // Function which returns the  root of the flattened linked list.
+    Node *flatten(Node *root) {
+        // Your code here
+        if(root->data == NULL)return root;
+        vector<int>ans;
+        Node* curr = root;
+        while(curr){
+            // ans.push_back(curr->data);
+            Node* temp = curr;
+            while(temp){
+                ans.push_back(temp->data);
+                temp = temp->bottom;
+            }
+            curr = curr->next;
+        }
+        sort(ans.begin(),ans.end());
+        Node* final = new Node(ans[0]);
+        Node* finalMover = final;
+        for(int i=1;i<ans.size();i++){
+            Node* temp = new Node(ans[i]);
+            finalMover->bottom = temp;
+            finalMover = finalMover->bottom;
+        }
+        return final;
+    }
+};
