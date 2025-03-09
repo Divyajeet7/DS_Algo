@@ -1,0 +1,24 @@
+class Solution {
+public:
+    string reverseWords(string s) {
+        reverse(s.begin(),s.end()); // Since last word becomes first we initially reverse the whole string, then as we go on finding words we reverse them individually
+        int n=s.size();
+        int left=0;
+        int right=0;
+        for(int i=0;i<n;i++){ // This i loop iterates over the whole string once
+            while(i<n && s[i]==' ')i++; // Moving i forward until we find a valid element
+            if(i==n)break; // to stop index going out of bounds // If i goes out of bounds we break out
+            while(i<n && s[i]!=' '){ // Once a valid element is found we start assigning it to the front of the string in-place since initally right is at index 0
+                s[right]=s[i];
+                right++; // after assigning we move right forward
+                i++; // after assigning we move i forward
+            } // Once we find a blank space again this loop stops
+            reverse(s.begin()+left,s.begin()+right); // Now we reverse the word which we have found since left is at 0 index initally, the reverse function only reverses up till right -  1, does not include the char at right index
+            s[right]=' '; // we assign blank space at the right index so as to keep a space between individual words
+            right++; // We move the right pointer forward
+            left=right; // We bring the left pointer to right so as to repeat the above steps again
+        }
+        s.resize(right-1); // count of right is 0-indexed, so orignally after for loop, it is always ahead of req string by one blank space
+        return s;
+    }
+};
