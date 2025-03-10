@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string capitalizeTitle(string title) {
+        // print individual words
+        // 2 pointer solution
+        int right = 0;
+        int left = 0;
+        int n = title.size();
+        for (int i = 0; i < n; i++) {
+            while (i < n && title[i] != ' ') { // This loop goes on till we find a space, i.e when a whole word is found
+                right++;
+                i++;
+            }
+            if (right - left < 3) { // right calculated the lenght of the word from left to right
+                for (int j = left; j < right; j++) {
+                    title[j] = char(tolower(title[j]));
+                }
+            } else {
+                title[left] = toupper(title[left]);
+                for (int j = left + 1; j < right; j++) {
+                    title[j] = char(tolower(title[j]));
+                }
+            }
+            // After traversing a word, left and right pointer are reinitialized
+            left = right + 1;
+            right = i + 1;
+        }
+        return title;
+    }
+};
