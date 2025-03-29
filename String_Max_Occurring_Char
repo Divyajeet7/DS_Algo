@@ -1,0 +1,18 @@
+class Solution {
+  public:
+    // Function to find the maximum occurring character in a string.
+    char getMaxOccuringChar(string& s) {
+        // Your code here
+        int arr[26] = {0};
+        int maxO = 0;
+        char ans = s[0];
+        for(int i=0;i<s.size();i++){
+            arr[s[i] - 'a']++;
+            if(arr[s[i] - 'a'] > maxO || (arr[s[i] - 'a'] == maxO && s[i] < ans)){
+                maxO = arr[s[i] - 'a'];
+                ans = s[i];
+            }
+        }
+        return ans;
+    }
+};
