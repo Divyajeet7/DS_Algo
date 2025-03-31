@@ -1,0 +1,34 @@
+class Solution {
+public:
+    bool isPalindrome(const string &temp){
+        int left = 0;
+        int right = temp.size()-1;
+        while(left<right){
+            if(temp[left] != temp[right]){
+                return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
+    int longestPalindrome(string s, string t) {
+        int longest = 1;
+
+        for(int i=0;i<=s.size();i++){ // including s.size() since we also consider empty substring
+            for(int j=i;j<=s.size();j++){ // including s.size() since we also consider empty substring
+                string temp1 = s.substr(i,j-i);
+                for(int k=0;k<=t.size();k++){ // including t.size() since we also consider empty substring
+                    for(int l=k;l<=t.size();l++){ // including t.size() since we also consider empty substring
+                        string temp2 = t.substr(k,l-k);
+                        string candidate = temp1+temp2;
+                        if(isPalindrome(candidate)){
+                            longest = max(longest,(int)candidate.size()); // (int)candidate.size() since comparing int and string
+                        }
+                    }
+                }
+            }
+        }
+        return longest;
+    }
+};
