@@ -1,0 +1,22 @@
+class Solution {
+public:
+    string removeOuterParentheses(string s) {
+        int cnt = 0;
+        string ans;
+        for(auto x:s){
+            if(x=='('){
+                if(cnt>0){ // Only add to the answer if it is not the first opened
+                    ans+=x;
+                }
+                cnt++;
+            }
+            else{
+                cnt--;
+                if(cnt>0){ // Only add to the answer if it is not the last closed
+                    ans+=x;
+                }
+            }
+        }
+        return ans;
+    }
+};
