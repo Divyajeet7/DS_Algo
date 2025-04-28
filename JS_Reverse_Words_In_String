@@ -1,0 +1,9 @@
+/**
+ * @param {string} s
+ * @return {string}
+ */
+var reverseWords = function(s) {
+    let words = s.trim().split(/\s+/); // Trimming the leading and trailing whitespaces, and splitting the string based on white spaces (/s) adding + due to multiple white spaces
+    words.reverse(); // Reversing the array of words
+    return words.join(' '); // Joining the array of words with a space between each of them
+};
