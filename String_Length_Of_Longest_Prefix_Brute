@@ -1,0 +1,29 @@
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        // first we find the length of the shortest string in the array
+        int minLen = INT_MAX;
+        for(int i=0;i<strs.size();i++){
+            int len = strs[i].size();
+            minLen = min(minLen,len);
+        }
+        if(minLen == 0)return "";
+        string ans;
+        for(int i=0;i<minLen;i++){ // Since the length of the longest prefix can only be as long as the length of the shortest word, therefore we only run this loop upto minLen only
+            bool isTrue = true; 
+            for(int j=1;j<strs.size();j++){ // Traversing through the remaining strings in the array and checking if the letter matches with the letter in the first string
+                if(strs[j][i] != strs[0][i]){ // If letter does not matches we set the var to false
+                    isTrue = false;
+                    break;
+                }
+            }
+            if(isTrue){ // If the variable is still true after the iteration, the letter is common among all strings in the array so we add it to ans string
+                ans += strs[0][i];
+            }
+            else{ // If not then we break out, no need to carry out any more operations
+                break;
+            }
+        }
+        return ans;
+    }
+};
