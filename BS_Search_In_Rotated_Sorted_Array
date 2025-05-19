@@ -1,0 +1,29 @@
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int start = 0;
+        int end = n-1;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(nums[mid]==target)return mid;
+            if(nums[start]<=nums[mid]){//left half sorted
+                if(nums[start]<=target&&target<=nums[mid]){ // target exists in left half
+                    end = mid-1;
+                }
+                else{
+                    start = mid+1;
+                }
+            }
+            else{ // right half sorted
+                if(nums[mid]<=target&&target<=nums[end]){ // target exists in right half
+                    start = mid+1;
+                }
+                else{
+                    end = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+};
