@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int start = 0;
+        int end = nums.size()-1;
+        int ans = INT_MAX;
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(nums[start]<=nums[end]){ // Implies the current array is sorted so no need to further reduce the size of the array, just compare it with the current ans and break the while loop, if the original array is already sorted then also this condition helps reducing unnecessary steps
+                ans = min(ans,nums[start]);
+                break;
+            }
+            if(nums[start]<=nums[mid]){ // Left half is sorted so we take the min element of the left half then move to right half for further comparisions wether a smaller element still exists somewhere
+                ans = min(ans,nums[start]); 
+                start = mid+1; // moving to right half
+            }
+            else{
+                ans = min(ans,nums[mid]); // Right half is sorted so we take the min element of the right half and move to left half for further comparisions
+                end = mid-1; // moving to left half
+            }
+        }
+        return ans;
+    }
+};
