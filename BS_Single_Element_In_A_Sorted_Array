@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int singleNonDuplicate(vector<int>& nums) {
+        int start = 1;
+        int end = nums.size()-2; // Keeping start as 1 and end as n-2 so we do not go out of bounds while comparing an element with its prev and next
+        int n = nums.size();
+        if(n==1)return nums[0];
+        if(nums[0]!=nums[1])return nums[0]; // Checking edge cases as we wont be comparaing this inside the loop
+        if(nums[n-1]!=nums[n-2])return nums[n-1];
+        while(start<=end){
+            int mid = start + (end-start)/2;
+            if(nums[mid]!=nums[mid-1]&&nums[mid]!=nums[mid+1])return nums[mid]; // Base condition
+            // Now, checking wether we are after or before the single element has appeared
+            if((mid%2==0&&nums[mid]==nums[mid+1])||(mid%2==1&&nums[mid]==nums[mid-1])){ // If we are on even index, where ideally the index after it should be equal
+                // And if we are on odd index the index before it should have the same element
+                start = mid+1; // If both above conditions are met then single element has not appeared yet, we need to move to the next half
+            }
+            else{
+                end = mid-1; // If single element has already appeared before then both the above conditions would not be met, so we move our search space to the first half
+            }
+        }
+        return -1;
+    }
+};
