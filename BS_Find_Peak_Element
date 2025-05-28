@@ -3,14 +3,14 @@ public:
     int findPeakElement(vector<int>& nums) {
         int n = nums.size();
         int start = 1;
-        int end = n-2;
+        int end = n-2; // We keep the search space from 1 to n-2 so as to not go out of bound while comparing with adjacent elements
         if(n==1)return 0;
-        if(nums[0]>nums[1])return 0;
-        if(nums[n-1]>nums[n-2])return n-1;
+        if(nums[0]>nums[1])return 0; // If first element is greater then we return it
+        if(nums[n-1]>nums[n-2])return n-1; // Similarly if last is greater we return it
         while(start<=end){
             int mid = start + (end-start)/2;
-            if(nums[mid]>nums[mid-1]&&nums[mid]>nums[mid+1])return mid;
-            if(nums[mid+1]>nums[mid]){ // We move our search space towards potential peak
+            if(nums[mid]>nums[mid-1]&&nums[mid]>nums[mid+1])return mid; // If mid is greater than adjacent elements we return it
+            if(nums[mid+1] > nums[mid]){ // We move our search space towards potential peak
                 start = mid+1;
             }
             else{
