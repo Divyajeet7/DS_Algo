@@ -1,0 +1,14 @@
+class Solution {
+  public:
+    int nthRoot(int n, int m) {
+        // Code here.
+        for(int i=1;i<=m;i++){
+            int whatever = 1;
+            for(int k=0;k<n;k++){
+                whatever*=i;
+            }
+            if(whatever == m)return i;
+        }
+        return -1;
+    }
+};
