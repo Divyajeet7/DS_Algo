@@ -1,0 +1,31 @@
+class Solution {
+public:
+    long long findTime(long long speed,long long totalHours,vector<int>piles){
+        long long timeElapsed = 0;
+        for(int i=0;i<piles.size();i++){
+            long long timeTemp = ((long long)piles[i]%speed) == 0 ? (long long)piles[i]/speed : ((long long)piles[i]/speed)+1;
+            timeElapsed += timeTemp;
+        }
+        cout<<timeElapsed<<endl;
+        return timeElapsed;
+    }
+    int minEatingSpeed(vector<int>& piles, int h) {
+        long long maxSpeed = INT_MIN;
+        for(int i=0;i<piles.size();i++){
+            maxSpeed = max((long long)piles[i],maxSpeed);
+        }
+        long long start = 1;
+        long long end = maxSpeed;
+        while(start<=end){
+            long long mid = start + (end-start)/2;
+            long long timeTaken = findTime(mid,h,piles);
+            if(timeTaken<=h){ // If at this speed (mid) Koko is able to consume all the bananas then we find a lesser speed as we have to find the minimum speed, so we shift our search space to the left
+                end = mid-1;
+            }
+            else{
+                start = mid+1; // If not then we try to find a higher speed (mid)
+            }
+        }
+        return int(start); // We return start since initially Koko can finish all the piles in maxSpeed but not in minSpeed and in Binary search the answer is converse of the value which initially satifies the conditions
+    }
+};
