@@ -1,0 +1,23 @@
+class Solution {
+public:
+    long long findTime(long long speed,long long totalHours,vector<int>piles){
+        long long timeElapsed = 0;
+        for(int i=0;i<piles.size();i++){
+            long long timeTemp = ((long long)piles[i]%speed) == 0 ? (long long)piles[i]/speed : ((long long)piles[i]/speed)+1; // Formula, if piles[i] is completely divisible by curr speed then just take the resultant time taken, if not then add another hour to the resultant time taken
+            timeElapsed += timeTemp;
+        }
+        cout<<timeElapsed<<endl;
+        return timeElapsed;
+    }
+    int minEatingSpeed(vector<int>& piles, int h) {
+        long long maxSpeed = INT_MIN;
+        for(int i=0;i<piles.size();i++){
+            maxSpeed = max((long long)piles[i],maxSpeed); // Max speed can be the max number of bananas in the pile, minimum speed can be 1 banana per hour
+        }
+        for(long long i=1;i<=maxSpeed;i++){
+            long long timeTaken = findTime(i,h,piles);
+            if(timeTaken<=h)return (int)i; // If at any speed Koko is able to consume all the piles under h hours then return that speed
+        }
+        return -1;
+    }
+};
