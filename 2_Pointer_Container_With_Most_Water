@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int maxArea(vector<int>& height) {
+        int high = height.size()-1;
+        int low = 0;
+        int maxArea=0;
+        while(low<high){
+            int water = (high - low) * (min(height[high],height[low]));
+            maxArea = max(maxArea,water);
+            if(height[low]<height[high]){ // Since we have to find bigger height we search whichever is smaller and move that pointer to next/prev
+                low++;
+            }
+            else{
+                high--;
+            }
+        }
+        return maxArea;
+    }
+};
