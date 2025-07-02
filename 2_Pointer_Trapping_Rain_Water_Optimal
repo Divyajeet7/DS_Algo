@@ -1,0 +1,35 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        // 2 pointer method
+        // At any given point, the amount of water which can be trapped at that particular spot will be = ( minimum (max left boundary , max right boundaray) - the current height )
+        // adding the total water trapped at each point will give us the answer
+        // the trapped water at any spot may be in -ve so we need to handle that exception.
+        // the total water trapped at a spot can also be described as the minimum of (max bottleneck to the spot's left and max bottleneck to the spot's right) - the current height
+        if(height.size()==0)return 0;
+
+        int left = 0;
+        int right = height.size()-1;
+
+        int maxLeft = height[left];
+        int maxRight = height[right];
+        
+        int area = 0;
+
+        while(left < right){
+            if(maxLeft  < maxRight){ // Finding the max bottleneck either on left or right
+                int tempArea = min(maxLeft,maxRight) - height[left]; // calculating water at that particular spot
+                if(tempArea > 0)area += tempArea; // handling negative water
+                left++; // we increment left so as to find a bigger bottleneck on the left
+                maxLeft = max(maxLeft,height[left]); // updating maxLeft after incrementing
+            }
+            else{
+                int tempArea = min(maxLeft,maxRight) - height[right]; // calculating water at that particular spot
+                if(tempArea > 0)area += tempArea; // handling negative water
+                right--; // we decrement right so as to find a bigger bottleneck on the right
+                maxRight = max(maxRight,height[right]); // updating maxRight after decrementing
+            }
+        }
+        return area;
+    }
+};
