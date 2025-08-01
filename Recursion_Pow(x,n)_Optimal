@@ -1,0 +1,20 @@
+class Solution {
+public:
+    double helper(double x,long long n){
+        if(x==0)return 0;
+        if(n==0)return 1;
+        double res = helper(x,n/2);
+        if(n%2==0)return res*res;
+        return x*res*res;
+    }
+    double myPow(double x, int n) {
+        long long safeN = n; // For handling int overflow cases or large numbers
+        bool isNeg = false;
+        if(n<0){
+            safeN = -safeN;
+            isNeg = true;
+        }
+        double res = helper(x,safeN);
+        return isNeg ? 1/res : res; // If n is -ve then we just return 1/res since x^-n = 1/x^n
+    }
+};
