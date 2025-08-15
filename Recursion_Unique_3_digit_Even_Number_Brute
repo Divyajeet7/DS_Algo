@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool isPossible(int i,vector<int>digits){
+        int a = i/100; // Extracting digit at hundreds place
+        int b = (i/10)%10; // Extracting digit at tens place
+        int c = i%10; // Extracting digit at ones place
+
+        bool aFound = false;
+        bool bFound = false;
+        bool cFound = false;
+        for(int j=0;j<digits.size();j++){
+            if(digits[j] == a && !aFound){
+                aFound = true;
+                digits[j] = -1; // Changing value to -1 so as to not consider it more than once
+            }
+            else if(digits[j] == b && !bFound){
+                bFound = true;
+                digits[j] = -1;
+            }
+            else if(digits[j] == c && !cFound){
+                cFound = true;
+                digits[j] = -1;
+            }
+            if(aFound && bFound && cFound){ // If at any point of time all 3 digits are found in digits then we return true
+                return true;
+            }
+        }
+        return false; // The 3 digits were not found in digits
+    }
+    int totalNumbers(vector<int>& digits) {
+        int count = 0;
+        for(int i=100;i<999;i+=2){ // Since every 3 digit number is b/w 100 & 999, i+=2 cuz we need to find even numbers only
+            // If i can be written using digits then count++
+            if(isPossible(i,digits)){
+                count++;
+            }
+        }
+        return count;
+    }
+};
