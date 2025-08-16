@@ -1,0 +1,18 @@
+class Solution {
+public:
+    int totalNumbers(vector<int>& digits) {
+        set<int>st;
+        int n = digits.size();
+        for(int i=0;i<n;i++){ // Taking 3 loops for generating a 3 digit number using elements from digits
+            for(int j=0;j<n;j++){
+                for(int k=0;k<n;k++){
+                    if(i!=j && j!=k && i!=k && digits[i] != 0 && digits[k]%2 == 0){ // Condition to check we are not taking the same digit twice, not taking first digit as 0 , and only consider even numbers
+                        int num = (digits[i] * 100) + (digits[j] * 10) + digits[k]; // Generating a 3 digit number
+                        st.insert(num); // Inserting to set to only consider Unique numbers
+                    }
+                }
+            }
+        }
+        return st.size(); // Returning total numbers found
+    }
+};
