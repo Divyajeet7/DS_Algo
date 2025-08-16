@@ -1,0 +1,29 @@
+class Solution {
+public:
+    // Backtracking solution
+    void backtrack(vector<int>&digits,set<int>&result,vector<int>&current,vector<bool>&exists){
+        if(current.size()==3){ // When current vector has 3 digits
+            if(current[0] != 0 && (current [2]%2 == 0)){ // Checking that 1st element for the 100s place is not 0 & at 1s place is even
+                int num = current[0]*100 + current[1]*10 + current[2]; // Forming the number
+                result.insert(num);
+            }
+            return;
+        }
+        for(int i=0;i<digits.size();i++){ // Iterating the digits vector so as to use the digits
+            if(!exists[i]){ // If the current index is not used up we can take the element and use it in our current vector
+                exists[i] = true; // Marking the index as used in our exists vector
+                current.push_back(digits[i]); // Pushing the element in our current vector
+                backtrack(digits,result,current,exists); // Calling the backtrack function
+                current.pop_back(); // At returning time we remove that elements from our current vector since we have already used up that combination
+                exists[i] = false; // Marking that index as used up as false
+            }
+        }
+    }
+    int totalNumbers(vector<int>& digits) {
+        set<int>result; // To store Unique numbers only
+        vector<int>current; // To keep track of the current 3 digits
+        vector<bool>exists(digits.size(),false); // To keep track of the indexes which are already used up so as to not repeat elements
+        backtrack(digits,result,current,exists); // Backtrack function
+        return result.size();
+    }
+};
