@@ -18,7 +18,7 @@ public:
             right++; // We move the right pointer forward
             left=right; // We bring the left pointer to right so as to repeat the above steps again
         }
-        s.resize(right-1); // count of right is 0-indexed, so orignally after for loop, it is always ahead of req string by one blank space
+        s.resize(right-1); // right is only incremented for chars and required blank spaces in the string, so after the for loop it is ahead of req string by one blank space as in the last one space is added to string and right is incremented by 1, also at the end left is assigned as right, therefore after the for loop left and right are equal, so we can also use s.resize(left - 1)
         return s;
     }
 };
