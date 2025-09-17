@@ -1,0 +1,19 @@
+class Solution {
+public:
+    bool containsNearbyDuplicate(vector<int>& nums, int k) {
+        // sliding window
+        set<int>window;
+        int left = 0;
+        for(int right=0;right<nums.size();right++){
+            if(right - left > k){ // Since the diff b/w indices should be <= k
+                window.erase(nums[left]); // If the diff is more we move the window forward by removing the left most element
+                left++; // Moving the current window forward
+            }
+            if(window.find(nums[right]) != window.end()){ // If the current element already exists in our window then we have found the two distinct indices with same element
+                return true;
+            }
+            window.insert(nums[right]); // Adding the current element to our window
+        }
+        return false;
+    }
+};
