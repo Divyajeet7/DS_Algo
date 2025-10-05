@@ -1,0 +1,28 @@
+void insert(vector<int>&vec,int temp){
+    if(vec.size() == 0 || vec[vec.size()-1] <= temp){ // If vector is empty or the last element of the vector is <= temp then we can easily insert temp in the vector and return(break out).
+        vec.push_back(temp);
+        return;
+    }
+    int val = vec[vec.size()-1]; // Storing the last element of the vector so as to reduce the size of the vector
+    vec.pop_back(); // Removing the last element of the vector so as to reduce its size
+    insert(vec,temp); // Recursively calling the insert function on the reduced vector
+    vec.push_back(val); // After the insert function returns the vector after inserting temp at appropriate place we insert val in the vector
+}
+
+void recursiveSort(vector<int>&vec){
+    if(vec.size() <= 1)return; // If vector is of size <= 1 it is already sorted
+    int temp = vec[vec.size()-1]; // Storing the last element of the vector so as to reduce the size of the vector
+    vec.pop_back(); // Removing the last element of the vector so as to reduce its size
+    recursiveSort(vec); // Recursively calling the sort function on the reduced vector
+    insert(vec,temp);// After the reduced vector is returned sorted we insert the temp element
+}
+
+int main()
+{
+    vector<int>vec = {1,0,5,2,-1,-5,74};
+    recursiveSort(vec);
+    for(auto x:vec){
+        cout<<x<<endl;
+    }
+    return 0;
+}
