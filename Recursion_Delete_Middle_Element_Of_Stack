@@ -1,0 +1,21 @@
+class Solution {
+  public:
+    void recursiveDelete(stack<int>&s,int a,int n){
+        if(n == a){  // Keeping all the size calculations of the stack in the main function only since the size of the stack changes inside the recursive function
+            s.pop();
+            return;
+        }
+        int temp = s.top();
+        s.pop();
+        recursiveDelete(s,a,n+1);
+        s.push(temp);
+    }
+    // Function to delete middle element of a stack.
+    void deleteMid(stack<int>& s) {
+        // code here..
+        int a = (s.size() / 2) + 1; // Keep all the size calculations of the stack in the main function only since the size of the stack changes inside the recursive function
+        int n = 1;
+        recursiveDelete(s,a,n);
+    }
+};
+
