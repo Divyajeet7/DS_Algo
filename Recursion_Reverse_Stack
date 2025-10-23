@@ -1,0 +1,28 @@
+class Solution {
+  public:
+    void insert(stack<int>&st,int ele){ // Recursive function which inserts the ele at it's correct position i.e at the bottom(last)
+        if(st.size()==0){ // If stack is empty then the ele can be safely inserted because then it will be at the bottom(last)
+            st.push(ele); // Pushing the ele into the stack
+            return;
+        }
+        int temp = st.top(); // If the stack is not empty then we got to reduce the size of the stack temporarily
+        st.pop(); // Reducing the size of the stack temporarily
+        insert(st,ele); // Passing ele and reduced stack back into the recursive insert function
+        st.push(temp); // Once the stack has returned after ele has been inserted at the bottom(last) we can just add back the temporarily removed element back into the stack
+        return;
+    }
+    void rev(stack<int>&st){ // recursive function to reverse a stack
+        if(st.size()==1)return; // If stack size is 1 it is already reversed
+        int ele = st.top(); // Reducing size of stack temporarily for further process
+        st.pop(); // Reducing size of stack
+        rev(st); // Passing the reduced stack back into the recursive function
+        insert(st,ele); // Inserting the removed element back into the stack once it has returned after reverse but at it's correct position i.e at the bottom(last)
+        return;
+    }
+    void reverseStack(stack<int> &st) {
+        // code here
+        if(st.size()==0)return; // If stack is empty no need to reverse, just return
+        rev(st);
+        return;
+    }
+};
