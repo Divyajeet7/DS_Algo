@@ -19,3 +19,28 @@ class Solution {
     }
 };
 
+// Without extra variable
+class Solution {
+  public:
+    void helper(stack<int>&s,int idx){
+        // cout<<idx;
+        if(idx == 1){
+            s.pop();
+            return;
+        }
+        int temp = s.top();
+        s.pop();
+        helper(s,idx-1);
+        s.push(temp);
+        return;
+    }
+    // Function to delete middle element of a stack.
+    void deleteMid(stack<int>& s) {
+        // code here..
+        if(s.size()==0)return;
+        int idx = (s.size() / 2) + 1;
+        helper(s,idx);
+        return;
+    }
+};
+
