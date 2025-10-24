@@ -1,0 +1,37 @@
+class Solution {
+public:
+    // Brute -> gives MLE for large 'n'
+    // int helper(string &s,int n ,int k,int idx){
+    //     if(idx == n){
+    //         // cout<<s<<","<<s[k];
+    //         return s[k-1] - '0';
+    //     }
+    // int m = s.size();
+
+    // for (int i = 0; i < m; i++) {
+    //     // XOR with 1 flips the bit ('0'->'1', '1'->'0')
+    //     s += (s[i] ^ 1);
+    // }
+    //     return helper(s,n,k,idx+1);
+    // }
+    // int kthGrammar(int n, int k) {
+    //     if(n == 1)return 0;
+    //     else if(n == 2 && k == 1)return 0;
+    //     else if(n == 2 && k == 2)return 1;
+    //     string s = "0110";
+    //     int idx = 3;
+    //     return helper(s,n,k,idx);
+    // }
+
+    // Optimal
+    int kthGrammar(int n, int k) {
+        if(n == 1||k == 1)return 0; // Base condition as given in problem statement
+        int mid = pow(2,n-1) / 2;
+        if(k <= mid){
+            return kthGrammar(n-1,k); // If k is smaller than mid of current row we can easily fetch the value at kth index in the n-1 row
+        }
+        else{ // Since index k is greater than mid of current row, in the previous row it will be undefined as the length of previous row is half the length of current row, we return the complement of the number at the kth index in n-1 row
+            return kthGrammar(n-1,k-mid) ^ 1; // Or can be -> return !kthGrammar(n-1,k-mid); // Effectively returning the complement of the number at that place
+        }
+    }
+};
