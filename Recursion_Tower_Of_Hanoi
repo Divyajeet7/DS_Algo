@@ -1,0 +1,25 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+void solve(int s,int h,int d,int n){
+    if (n == 1){ // If there is only 1 disk then we move it directly to dest from source and return
+        cout<<"Moving disk "<<n<<" from tower "<<s<<" to "<<d<<endl;
+        return;
+    }
+    solve(s,d,h,n-1); // Moving n-1 disks from source to helper tower while using dest as helper
+    cout<<"Moving disk "<<n<<" from tower "<<s<<" to "<<d<<endl; // Moving the largest disk from source to dest
+    solve(h,s,d,n-1); // Moving n-1 disks from helper to dest while using source as helper
+    return;
+}
+
+int main()
+{
+    int n = 3;
+    int s = 1;
+    int h = 2;
+    int d = 3;
+    solve(s,h,d,n);
+
+    return 0;
+}
