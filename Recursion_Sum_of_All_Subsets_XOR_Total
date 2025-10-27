@@ -1,0 +1,32 @@
+class Solution {
+public:
+    void solve(vector<int>ip,vector<int>op,vector<vector<int>>&ans){
+        if(ip.size()==0){ // Implies we are at leaf node
+            ans.push_back(op);
+            return;
+        }
+        vector<int>op1(op); // We won't take the current input for this temp output (Choice 1)
+        vector<int>op2(op); // We will take the current input for this temp output (Choice 2)
+        // Not taking input for this particular node hence no line of code (Decision 1)
+        op2.push_back({ip[0]}); // Taking current input for this particular node (Decision 2)
+        ip.erase(ip.begin());  // Once decisions are made for the current choice we need not consider the current choice again hence removing it from input
+        solve(ip,op1,ans); // Repeating until we reach leaf node
+        solve(ip,op2,ans);
+        return;
+    }
+    int subsetXORSum(vector<int>& nums) {
+        // Solved using Recursion Input-Output Method
+        vector<int>op; // Taking empty string (Array for this case) as initial output
+        vector<vector<int>>ans; // For storing all possible outputs
+        solve(nums,op,ans); // nums is the input
+        int res = 0;
+        for(auto x:ans){
+            int rowXor = 0;
+            for(auto y:x){
+                rowXor = rowXor ^ y;
+            }
+            res += rowXor;
+        }
+        return res;
+    }
+};
