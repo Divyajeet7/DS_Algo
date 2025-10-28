@@ -1,0 +1,27 @@
+class Solution {
+  public:
+    void solve(string ip,string op,vector<string>&ans){
+        if(ip.length() == 0){
+            ans.push_back(op);
+            return;
+        }
+        string op1 = op;
+        string op2 = op;
+        op1 += ' '; // Choice 1 including space, also space is added before element so as to avoid adding a space after last element
+        op1 += ip[0]; // Adding current element to choice 1
+        op2 += ip[0]; // Choice 2 without including space
+        ip.erase(ip.begin());
+        solve(ip,op1,ans);
+        solve(ip,op2,ans);
+        return;
+    }
+    vector<string> permutation(string s) { // No space to be considered before and after first & last element
+        // Code Here
+        string op = "";
+        op += s[0]; // Since space will not be added before first element
+        s.erase(s.begin());
+        vector<string>ans;
+        solve(s,op,ans);
+        return ans;
+    }
+};
