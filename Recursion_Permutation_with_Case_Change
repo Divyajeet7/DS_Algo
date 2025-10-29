@@ -1,0 +1,65 @@
+// class Solution {
+// public:
+//     // In 2 choices, 1st choice will be lower case 2nd choice will be upper case
+//     void solve(string ip,string op,vector<string>&ans){
+//         if(ip.length() == 0){
+//             ans.push_back(op);
+//             return;
+//         }
+//         string op1 = op;
+//         string op2 = op;
+//         op1 += tolower(ip[0]);
+//         op2 += toupper(ip[0]);
+//         ip.erase(ip.begin());
+//         solve(ip,op1,ans);
+//         solve(ip,op2,ans);
+//         return;
+//     }
+//     vector<string> letterCasePermutation(string s) {
+//         string op = "";
+//         vector<string>ans;
+//         solve(s,op,ans);
+//         set<string>st(ans.begin(),ans.end());
+//         vector<string>ans1(st.begin(),st.end());
+//         return ans1;
+//     }
+// };
+
+// Better approach without needing an extra set container
+class Solution {
+public:
+    // At each step:
+    // Choice 1 → keep the character's current case
+    // Choice 2 → flip the character's case (using bitwise XOR with ' ')
+    void solve(string ip, string op, vector<string> &ans) {
+        if (ip.size() == 0) {
+            ans.push_back(op);
+            return;
+        }
+
+        if (isalpha(ip[0])) {
+            string op1 = op;
+            string op2 = op;
+
+            op1 += ip[0];           // Choice 1: use the character as-is
+            op2 += (ip[0] ^ ' ');   // Choice 2: toggle the case using bitwise XOR
+
+            ip.erase(ip.begin());   // Move to next character
+
+            solve(ip, op1, ans);
+            solve(ip, op2, ans);
+        } else {
+            // If the current character is a digit, just append and move ahead
+            op += ip[0];
+            ip.erase(ip.begin());
+            solve(ip, op, ans);
+        }
+    }
+
+    vector<string> letterCasePermutation(string s) {
+        string op = "";
+        vector<string> ans;
+        solve(s, op, ans);
+        return ans;
+    }
+};
