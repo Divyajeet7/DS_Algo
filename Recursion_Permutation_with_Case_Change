@@ -25,6 +25,47 @@
 //     }
 // };
 
+// Tried to optimize extra set solution but was not able to come up with a working solution, got this from ChatGPT
+// class Solution {
+// public:
+//     void solve(string ip, string op, vector<string> &ans) {
+//         if (ip.empty()) {
+//             ans.push_back(op);
+//             return;
+//         }
+
+//         // Consume consecutive digits together
+//         int i = 0;
+//         while (i < ip.size() && isdigit(ip[i])) {
+//             op.push_back(ip[i]);
+//             i++;
+//         }
+
+//         // Remove those digits from ip
+//         ip.erase(ip.begin(), ip.begin() + i);
+
+//         if (ip.empty()) {
+//             ans.push_back(op);
+//             return;
+//         }
+
+//         // Now ip[0] is a letter
+//         string op1 = op, op2 = op;
+//         op1.push_back(tolower(ip[0]));
+//         op2.push_back(toupper(ip[0]));
+
+//         ip.erase(ip.begin());
+//         solve(ip, op1, ans);
+//         solve(ip, op2, ans);
+//     }
+
+//     vector<string> letterCasePermutation(string s) {
+//         vector<string> ans;
+//         solve(s, "", ans);
+//         return ans;
+//     }
+// };
+
 // Better approach without needing an extra set container
 class Solution {
 public:
