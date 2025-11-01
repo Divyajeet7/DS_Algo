@@ -1,0 +1,73 @@
+class Solution {
+public:
+    // Brute force -> Generating all possible combinations, filtering out the unique ones and checking whether the generated string is valid or not
+    // void solve(string op,int filled,int total,vector<string>&ans){
+    //     if(filled == total){
+    //         ans.push_back(op);
+    //         return;
+    //     }
+    //     string op1 = op;
+    //     string op2 = op;
+    //     op1 += '(';
+    //     op2 += ')';
+    //     filled++;
+    //     solve(op1,filled,total,ans);
+    //     solve(op2,filled,total,ans);
+    //     return;
+    // }
+    // bool isValid(string s) {
+    //     stack<char> st;  //taking stack for keep tracking the order of the brackets..
+    //     for(auto i:s)  //iterate over each and every elements
+    //     {
+    //         if(i=='(' or i=='{' or i=='[') st.push(i);  //if current element of the string will be opening bracket then we will just simply push it into the stack
+    //         else  //if control comes to else part, it means that current element is a closing bracket, so check two conditions  current element matches with top of the stack and the stack must not be empty...
+    //         {
+    //             if(st.empty() or (st.top()=='(' and i!=')') or (st.top()=='{' and i!='}') or (st.top()=='[' and i!=']')) return false;
+    //             st.pop();  //if control reaches to that line, it means we have got the right pair of brackets, so just pop it.
+    //         }
+    //     }
+    //     return st.empty();  //at last, it may possible that we left something into the stack unpair so return checking stack is empty or not..
+    // }
+    // vector<string> generateParenthesis(int n) {
+    //     int total = 2*n;
+    //     vector<string>ans;
+    //     int filled = 0;
+    //     string op = "";
+    //     solve(op,filled,total,ans);
+    //     vector<string>ans1;
+    //     set<string>st(ans.begin(),ans.end());
+    //     for(auto it:st){
+    //         if(isValid(it)){
+    //             ans1.push_back(it);
+    //         }
+    //     }
+    //     return ans1;
+    // }
+
+    // Optimal
+    void solve(int open,int close,string op,vector<string>&ans){
+        if(open == 0 && close == 0){
+            ans.push_back(op);
+            return;
+        }
+        if(open != 0){ // As long as we have open available we can use it
+            string op1 = op;
+            op1 += '(';
+            solve(open-1,close,op1,ans); // Decrementing while passing and not before since it would change the original value of open and when we check it's value in the next if condtion it would be wrong
+        }
+        if(close > open){ // We can only use closed when it's count is greater than that of open
+            string op2 = op;
+            op2 += ')';
+            solve(open,close-1,op2,ans);
+        }
+        return;
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string>ans;
+        string op = "";
+        int open = n;
+        int close = n;
+        solve(open,close,op,ans);
+        return ans;
+    }
+};
