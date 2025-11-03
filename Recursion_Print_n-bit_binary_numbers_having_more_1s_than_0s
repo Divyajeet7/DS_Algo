@@ -1,0 +1,28 @@
+// User function template for C++
+class Solution {
+  public:
+    void solve(int zero,int ones,string op,vector<string>&ans,int n){
+        if(op.size() == n){ // or could also be if(zero + ones == n) , or value of n can also be decremented every iteration (n-1) and if (n == 0) then return (We have a possible combination)
+            ans.push_back(op);
+            return;
+        }
+        string op2 = op; // Any number of 1s can be added as long as they are nesser than
+        op2 += '1';
+        solve(zero,ones+1,op2,ans,n);
+        if(zero < ones){ // At any point, count of 0s should not exceed count of 1s, also we did not do zero <= ones as given in problem statement because if at the condition when zero == ones and we added another 0 then it would exceed number of 1s in the next iteration which is wrong
+            string op1 = op;
+            op1 += '0';
+            solve(zero+1,ones,op1,ans,n);
+        }
+        return;
+    }
+    vector<string> NBitBinary(int n) {
+        // Your code goes here
+        string op = "";
+        int ones = 0;
+        int zero = 0;
+        vector<string>ans;
+        solve(zero,ones,op,ans,n);
+        return ans;
+    }
+};
