@@ -1,0 +1,53 @@
+So for left rotating array to the left by k places we are basically pulling elements to the right of the current index to the current index
+And for rotating array to the right by k places we are basically pulling elements to the left of the current index to the current index
+
+Now to avoid going out of bounds of the array , we use modular arithmetic
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int>temp(n);
+        for(int i=0;i<n;i++){
+            temp[i] = nums[(i-k+n)%n]; // Right rotate by k places
+            // temp[i] = nums[(i+k)%n]; // Left rotate by k places
+        }
+        nums = temp;
+    }
+};
+
+We can also do it this way and avoid copying temp to nums at last (The formulas just reversed when they went to LHS from RHS)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int>temp(nums.begin(),nums.end());
+        for(int i=0;i<n;i++){
+            nums[(i+k)%n] = temp[i]; // Right rotate by k places
+            // nums[(i-k+n)%n] = temp[i]; // Left rotate by k places
+        }
+    }
+};
+
+Or we can first reverse the whole array, then reverse array from begin up to k index, then rotate array from k index to last index and get the desired outcome (Right rotate by k places)
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        reverse(nums.begin(),nums.end());
+        reverse(nums.begin(),nums.begin()+k);
+        reverse(nums.begin()+k,nums.end());
+    }
+};
+
+Left rotate by k places :
+
+class Solution {
+public:
+    void rotate(vector<int>& nums, int k) {
+        reverse(arr.begin(),arr.end()); // Reversing whole array
+        reverse(arr.begin(),arr.begin()+n-k); // Reversing up till (n-k)th index
+        reverse(arr.begin()+n-k,arr.end()); // Reversing from (n-k)th index till last
+    }
+};
