@@ -30,14 +30,15 @@ public:
     }
 };
 
-Or we can first reverse the whole array, then reverse array from begin up to k index, then rotate array from k index to last index and get the desired outcome (Right rotate by k places)
+Or we can first reverse the whole array, then reverse array from begin up to k%n index, then rotate array from k%n index to last index and get the desired outcome (Right rotate by k places)
+Used k%n so as to avoid going out of bounds and circle back into the array
 
 class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
         reverse(nums.begin(),nums.end());
-        reverse(nums.begin(),nums.begin()+k);
-        reverse(nums.begin()+k,nums.end());
+        reverse(nums.begin(),nums.begin()+k%n);
+        reverse(nums.begin()+k%n,nums.end());
     }
 };
 
@@ -47,7 +48,7 @@ class Solution {
 public:
     void rotate(vector<int>& nums, int k) {
         reverse(arr.begin(),arr.end()); // Reversing whole array
-        reverse(arr.begin(),arr.begin()+n-k); // Reversing up till (n-k)th index
-        reverse(arr.begin()+n-k,arr.end()); // Reversing from (n-k)th index till last
+        reverse(arr.begin(),arr.begin()+n-k%n); // Reversing up till (n-k)th index
+        reverse(arr.begin()+n-k,arr.end()); // Reversing from (n-k%n)th index till last
     }
 };
