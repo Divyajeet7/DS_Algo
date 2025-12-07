@@ -1,0 +1,46 @@
+class Solution {
+public:
+    void solve(vector<int>&vec,int k,int start,int n){
+        if(vec.size()==1){
+            return;
+        }
+        int delIndex = (start + k -1) % n; // We always move k-1 steps from where we currently are and delete that index, used % n so as to when we go outside the vector it brings or rounds back in
+        vec.erase(vec.begin() + delIndex);
+        start = delIndex % vec.size(); // New start
+        solve(vec,k,start,vec.size());
+        return;
+    }
+    int findTheWinner(int n, int k) {
+       int start = 0;
+       vector<int>vec;
+       for(int i=1;i<=n;i++){
+        vec.push_back(i);
+       }
+       solve(vec,k,start,n);
+       return vec[0];
+    }
+};
+
+class Solution {
+public:
+    void solve(vector<int>&vec,int k,int n,int start){
+        if(vec.size() == 1)return;
+        int delIndex = (start + k - 1)%n;
+        cout<<"Deleting -> "<<vec[delIndex];
+        cout<<endl;
+        vec.erase(vec.begin()+delIndex);
+        n = n-1;
+        start = (delIndex)%n;
+        solve(vec,k,n,start);
+    }
+    int findTheWinner(int n, int k) {
+        vector<int>vec(n);
+        iota(vec.begin(),vec.end(),1);
+        int start = 0;
+        solve(vec,k,n,start);
+        // for(auto x:vec){
+        //     cout<<x<<endl;
+        // }
+        return vec[0];
+    }
+};
