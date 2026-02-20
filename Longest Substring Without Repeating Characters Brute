@@ -1,0 +1,31 @@
+class Solution {
+public:
+    bool containsDup(string temp){
+        vector<int>vec(256,0);
+        for(int i=0;i<temp.size();i++){
+            vec[temp[i]]++;
+        }
+        for(auto x:vec){
+            if(x > 1){
+                return true;
+            }
+        }
+        return false;
+    }
+    int lengthOfLongestSubstring(string s) {
+        string ans;
+        int maxLength = 0;
+        int left = 0;
+        int right = 0;
+        while(right < s.size()){
+            ans += s[right++];
+            while(containsDup(ans)){ // If ans contains duplicate chars then we keep removing until it doesn't
+                ans.erase(0,1);
+                left++;
+            }
+            int len = ans.size();
+            maxLength = max(maxLength,len);
+        }
+        return maxLength;
+    }
+};
