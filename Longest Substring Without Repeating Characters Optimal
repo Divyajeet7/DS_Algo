@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) { // Optimal O(n) solution textbook sliding window 3 steps
+        int maxLength = 0;
+        int left = 0;
+        int right = 0;
+        vector<int>vec(256,0); // O(1) since size is constant
+        while(right < s.size()){
+            vec[s[right]]++; // 1️⃣ Expand
+            while(vec[s[right]] > 1){ // 2️⃣ Shrink if duplicate
+                vec[s[left]]--;
+                left++;
+            }
+            right++; // move right boundary
+            maxLength = max(maxLength,right-left); // 3️⃣ Update
+        }
+        return maxLength;
+    }
+};
