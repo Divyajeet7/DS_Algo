@@ -1,0 +1,30 @@
+class Solution {
+public:
+    long long maximumSubarraySum(vector<int>& nums, int k) {
+        long long maxSum = 0;
+        long long currentSum = 0;
+        int left = 0;
+        unordered_map<int,int>mp;
+        for(int i=0;i<k;i++){ // Initializing a window of size k
+            currentSum += nums[i];
+            mp[nums[i]]++;
+            if(mp.size() == k){
+                maxSum = max(maxSum,currentSum);
+            }
+        }
+        for(int i=k;i<nums.size();i++){ // Now starting from index k
+            currentSum += nums[i];
+            mp[nums[i]]++;
+            currentSum -= nums[left];
+            mp[nums[left]]--;
+            if(mp[nums[left]] == 0){ // Since we check the size of mp we cannot have any extra elements with count of 0 thus we remove that element from our map
+                mp.erase(nums[left]);
+            }
+            left++; // Then we increment left pointer
+            if(mp.size() == k){ // This denotes there exists k unique elements in our current window
+                maxSum = max(maxSum,currentSum);
+            }
+        }
+        return maxSum;
+    }
+};
