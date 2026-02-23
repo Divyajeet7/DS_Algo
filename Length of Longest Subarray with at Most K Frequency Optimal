@@ -1,0 +1,20 @@
+class Solution {
+public:
+    int maxSubarrayLength(vector<int>& nums, int k) {
+        unordered_map<int,int>mp; // To store elements and thier respective frequencies
+        int maxLength = 0;
+        int left = 0; 
+        int right = 0;
+        while(right < nums.size()){
+            mp[nums[right]]++; // Expand
+            while(mp[nums[right]] > k){ // Shrink until given condition not true
+                mp[nums[left]]--;
+                left++;
+            }
+            maxLength = max(maxLength,right - left +1); // Compute
+            right++; // increment after checking or the length of subarray will inflate by 1
+
+        } 
+        return maxLength;
+    }
+};
