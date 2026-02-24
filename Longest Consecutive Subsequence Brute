@@ -1,0 +1,24 @@
+class Solution {
+  public:
+    // Function to return length of longest subsequence of consecutive integers.
+    int longestConsecutive(vector<int>& arr) {
+        Your code here
+        int longest = 0;
+        int currSize = 1;
+        sort(arr.begin(),arr.end());
+        for(int i=1;i<arr.size();i++){
+            if(abs(arr[i] - arr[i-1]) == 1){ // We are in sequence with the prev element
+                currSize+=1;
+            }
+            else if(arr[i] == arr[i-1]){ // current element is the same as prev element so no increase of count
+                continue;
+            }
+            else{
+                currSize = 1; // The sequence has ended, reset
+            }
+            longest = max(longest,currSize);
+        }
+        return longest;
+    }
+};
+
