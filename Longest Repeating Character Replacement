@@ -1,0 +1,112 @@
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        int maxFreq = 0;
+        int maxLength = 0;
+        vector<int>vec(26,0);
+        int left = 0;
+        int right = 0;
+        while(right < s.size()){
+            vec[s[right] - 'A']++; // Expand
+            maxFreq = max(maxFreq,vec[s[right] - 'A']); // Keeping track of element which occurs most -> So we know how many elements we need to change -> Can be at most k so we know what our shrink condition should be
+            // We track the maximum frequency inside the current window so we can compute:
+            // windowSize - maxFreq
+            // = number of characters that need replacement.
+            while(right - left + 1 - maxFreq > k){ // How many chars are not the char which is of maxFreq -> we need to change those -> but we can change at most k chars -> so the chars which are not of maxFreq are denoted by formula r - l + 1 - maxFreq
+                vec[s[left] - 'A']--; // Shrink until given condition is not satisfied
+                // We do not need to decrease maxFreq while shrinking because we only care that maxFreq represents the highest frequency seen in any valid window so far.
+
+                // We don’t decrease maxFreq because:
+
+                // Even if maxFreq becomes outdated,
+
+                // It does NOT break correctness.
+
+                // At worst, it delays shrinking slightly,
+
+                // But the window will still eventually become valid.
+                // We do not need it to be perfectly accurate for every sub-window.
+                left++;
+            }
+            maxLength = max(maxLength,right - left + 1);
+            right++;
+        }
+        return maxLength;
+    }
+};
+
+class Solution {
+public:
+    int characterReplacement(string s, int k) {
+        // unordered_map<char,int>mp;
+        // string ans;
+        // int left = 0;
+        // int right = 0;
+        // int maxLength = 0;
+        // for(int i=0;i<s.size();i++){
+        //     ans += s[i];
+        //     mp[s[i]]++;
+        //     char sec;
+        //     if (mp.empty()) {
+               
+        //     }
+        //     // cout<<ans<<endl;
+        //     while(mp.size() > k || mp[s[right]] > k){
+        //         // cout<<"HERE "<<mp[s[i]]<<endl;
+        //         for(auto it:mp){
+        //             cout<<it.first<<it.second<<endl;
+        //         }
+        //         mp[s[left]]--;
+        //         if(mp[s[left]] == 0){
+        //             mp.erase(s[left]);
+        //         }
+        //         left++;
+        //     }
+        //     right++;
+            
+        //     maxLength = max(right-left,maxLength);
+        // }
+        // return maxLength;
+        // vector<int>vec(26,0);
+        // int maxFreq = 0;
+        // int maxLength = 0;
+        // int left = 0;
+        // int right = 0;
+        // while(right<s.size()){
+        //     // Expand as long as the condition is valid
+        //     vec[s[right] - 'A']++;
+        //     maxFreq = max(maxFreq,vec[s[right] - 'A']);
+
+        //     // Shrink ? When condition is invalid
+        //     while(right-left+1 - maxFreq > k){ // How many elements we need to replace for a window to be valid is given by the formula -> length of current window - freq of maximum occuring char in our window should be <= k for us to effectively replace that many chars and have a valid window
+        //         vec[s[left] - 'A']--;
+        //         left++;
+        //     }
+        //     // Compute
+        //     maxLength = max(maxLength,right-left+1);
+        //     right++;
+        // }
+        // return maxLength;
+
+        // 1. Why length is right - left + 1 and not right - left
+        // 2. Very tough to come up with the shrink / valid window condition
+        // 3. Why right is incremented after compute?
+
+        vector<int>vec(26,0);
+        int left = 0;
+        int maxFreq = 0;
+        int maxLength = 0;
+        for(int right = 0;right<s.size();right++){
+            vec[s[right] - 'A']++; // Expand
+            maxFreq = max(maxFreq,vec[s[right] - 'A']); // Keeping track of element with maxFreq
+
+            while(right - left + 1 - maxFreq > k){ // Shrink when condition not satisfied
+                vec[s[left] - 'A']--;
+                left++;
+            }
+            maxLength = max(maxLength,right-left+1); // compute
+            // right++; // Commented since we are using a for loop, if we used a while loop then this line was required
+        }
+        return maxLength;
+    }
+};
