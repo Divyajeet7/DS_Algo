@@ -1,0 +1,36 @@
+class Solution {
+public:
+    int longestOnes(vector<int>& nums, int k) {
+        // unordered_map<int,int>mp(2);
+        int count0 = 0;
+        int count1 = 0;
+        int maxFreq = 0;
+        int maxLength = 0;
+        int left = 0;
+        int right = 0;
+        while(right < nums.size()){
+            if(nums[right] == 0){
+                count0++;
+            }
+            else{
+                count1++;
+            }
+            // mp[nums[right]]++; // Expand
+            maxFreq = max(maxFreq,count1); // Dynamically storing maxFreq
+
+            while(right - left + 1 - maxFreq > k){ // Shrinking until given condition is satisfied
+                // mp[nums[left]]--;
+                if(nums[left] == 0){
+                    count0--;
+                }
+                else{
+                    count1--;
+                }
+                left++;
+            }
+            maxLength = max(maxLength , right - left + 1);
+            right++;
+        }
+        return maxLength;
+    }
+};
