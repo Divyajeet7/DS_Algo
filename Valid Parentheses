@@ -1,0 +1,51 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        // stack<char>st;
+        // for(auto x:s){
+        //     if(!st.empty() && st.top() == '(' && x == ')'){
+        //         st.pop();
+        //     }
+        //     else if(!st.empty() && st.top() == '{' && x == '}'){
+        //         st.pop();
+        //     }
+        //     else if(!st.empty() && st.top() == '[' && x == ']'){
+        //         st.pop();
+        //     }
+        //     else{
+        //         st.push(x);
+        //     }
+        // }
+        // return st.size() == 0 ? true : false;
+
+        // Opening bracket → push
+
+        // Closing bracket:
+
+        //     If stack empty → invalid
+
+        //     If top doesn’t match → invalid
+
+        //     Else → pop
+        stack<char>st;
+        for(char c:s){
+            // If opening bracket we push
+            if(c == '(' || c == '{' || c == '['){
+                st.push(c);
+            }
+            else{
+                if(st.empty()){
+                    return false; // No point in pushing a closing bracket in an empty stack
+                }
+                char top = st.top();
+                if(c == ')' && top == '(' || c == '}' && top == '{' || c == ']' && top == '['){
+                    st.pop(); // If current element matches the stack top we pop the top
+                }
+                else{
+                    return false; // Else no point continuing
+                }
+            }
+        }
+        return st.empty();
+    }
+};
