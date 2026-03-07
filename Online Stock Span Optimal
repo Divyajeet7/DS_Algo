@@ -1,0 +1,60 @@
+***************************** MY CODE *******************************
+class StockSpanner {
+public:
+    stack<pair<int,int>>st; // Stack of pairs stores price along with it's span
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        int cnt = 1; // 1 since the current price span includes itself
+        while(!st.empty() && price >= st.top().first){ // As given in description, price which is greater than or equal to price on previous days
+            cnt += st.top().second; // We directly take the span of those prices which are lesser than or equal to current price since they have already computed their span previously
+            // In a way we jump right to the price which was greater than st.top() instead of incrementing span count 1 by 1
+            st.pop(); // Since the current top is lesser or equal to current price it no longer confirms to our decreasing monotonic stack
+        }
+        st.push({price,cnt}); // Pushing the current price and it's span in our stack
+        return cnt;
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
+
+**********************CHAT GPT SUGGESTED COMMENTS AND CODE************************
+class StockSpanner {
+public:
+    // Monotonic decreasing stack
+    // Each element stores: {price, span}
+    // span = number of consecutive days this price dominates
+    stack<pair<int,int>> st;
+
+    StockSpanner() {
+    }
+
+    int next(int price) {
+
+        // Minimum span is 1 (the current day itself)
+        int span = 1;
+
+        // If current price is greater than or equal to previous prices,
+        // those previous prices cannot limit the span anymore
+        while (!st.empty() && price >= st.top().first) {
+
+            // Instead of counting day-by-day,
+            // reuse the span already computed for that price
+            span += st.top().second;
+
+            // Remove smaller prices since they are no longer useful
+            st.pop();
+        }
+
+        // Push current price with its computed span
+        st.push({price, span});
+
+        return span;
+    }
+};
