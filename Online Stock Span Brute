@@ -1,0 +1,30 @@
+************************** BRUTE FORCED IT, DON'T EXACTLY KNOW HOW IT WORKS********************************
+class StockSpanner {
+public:
+    vector<pair<int,int>>st;
+    int day = 0;
+    StockSpanner() {
+        
+    }
+    
+    int next(int price) {
+        st.push_back({price,day});
+        int cnt = 0;
+        for(auto it:st){
+            if(it.first <= price && it.second <= day){
+                cnt++;
+            }
+            else{
+                cnt = 0;
+            }
+        }
+        day++;
+        return cnt;
+    }
+};
+
+/**
+ * Your StockSpanner object will be instantiated and called as such:
+ * StockSpanner* obj = new StockSpanner();
+ * int param_1 = obj->next(price);
+ */
