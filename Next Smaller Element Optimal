@@ -1,0 +1,30 @@
+class Solution {
+  public:
+    vector<int> nextSmallerEle(vector<int>& arr) {
+        //  code here
+        // stack<pair<int,int>>st;
+        // int n = arr.size();
+        // vector<int>vec(n,-1);
+        // for(int i= 0;i<n;i++){
+        //     while(!st.empty() && arr[i] < st.top().first){ // Implies we have found the next smaller element to the element at st.top()
+        //         vec[st.top().second] = arr[i];
+        //         st.pop();
+        //     }
+        //     st.push({arr[i],i});
+        // }
+        // return vec;
+        
+        // Without using pair in stack, just storing & using indexes
+        stack<int>st;
+        int n = arr.size();
+        vector<int>vec(n,-1); // Initializing each element to -1 since the elements which don't have a next greater element needs to return -1
+        for(int i= 0;i<n;i++){
+            while(!st.empty() && arr[i] < arr[st.top()]){ // Implies we have found the next smaller element to the element at st.top()
+                vec[st.top()] = arr[i]; // Assigning current element as next smaller element to all the elements in stack which are greater than current element
+                st.pop(); // Popping stack once that particular element's next smaller element has been assigned
+            }
+            st.push(i);
+        }
+        return vec;
+    }
+};
