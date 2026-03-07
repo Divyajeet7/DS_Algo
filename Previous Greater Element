@@ -1,0 +1,17 @@
+class Solution {
+  public:
+    vector<int> preGreaterEle(vector<int>& arr) {
+        //  code here
+        stack<int>st;
+        int n = arr.size();
+        vector<int>vec(n,-1); // Initializing each element to -1 since the elements which don't have a previous greater element needs to return -1
+        for(int i=n-1;i>=0;i--){ // Going backwards
+            while(!st.empty() && arr[i] > arr[st.top()]){ // When an element greater than st.top is found we assign it as the PGE of previous elements
+                vec[st.top()] = arr[i];
+                st.pop(); // Once that index is assigned it is no longer required so we pop
+            }
+            st.push(i);
+        }
+        return vec;
+    }
+};
