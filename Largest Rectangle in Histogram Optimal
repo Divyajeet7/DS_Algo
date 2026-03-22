@@ -1,0 +1,41 @@
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        if(heights.size() == 1)return heights[0]; // Edge case
+        stack<int>st;
+        int n = heights.size();
+        vector<int>prevS(n,-1); // Stores left width for each element
+        vector<int>nextS(n,-1); // Stores right width for each element
+        for(int i=0;i<n;i++){
+            // First we find previous smaller element for each index;
+            while(!st.empty() && heights[i] <= heights[st.top()]){
+                st.pop();
+            }
+            if(!st.empty()){
+                prevS[i] = i - st.top() - 1;
+            }
+            st.push(i);
+        }
+        while(!st.empty()){ // Emptying the stack so as to reuse it for next smaller element calculation
+            st.pop();
+        }
+        for(int i=0;i<n;i++){
+            // Finding next smaller element for each index;
+            while(!st.empty() && heights[i] < heights[st.top()]){
+                nextS[st.top()] = i - st.top() - 1;
+                st.pop();
+            }
+            st.push(i);
+        }
+        int maxArea = -1;
+        for(int i=0;i<n;i++){
+            int leftWidth = prevS[i] == -1 ? i : prevS[i]; // Prev smaller element could not exist for some elements so we take full left width from current element to start of array
+            int rightWidth = nextS[i] == -1 ? n - i - 1 : nextS[i]; // Similarly
+            int width = leftWidth + rightWidth + 1;
+            cout<<leftWidth<<endl;
+            int area = heights[i] * width;
+            maxArea = max(area,maxArea);
+        }
+        return maxArea;
+    }
+};
