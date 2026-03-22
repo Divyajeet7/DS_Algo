@@ -1,0 +1,38 @@
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& asteroids) {
+        vector<int>vec;
+        stack<int>st;
+        int n = asteroids.size();
+        for(int i=0;i<n;i++){
+            bool destroyed = false;
+            // Collision only happens when stack top > 0 and current < 0 ( Stack top moving right -> <- Current moving left)
+            while(!st.empty() && st.top() > 0 && asteroids[i] < 0){
+                // 1st case -> stack top < current -> stack top is popped, further collisions continue in next iteration of while loop
+                if(abs(st.top()) < abs(asteroids[i])){
+                    st.pop();
+                }
+                // 2nd case -> stack top == current -> stack is popped & current is destroyed -> break
+                else if(abs(st.top()) == abs(asteroids[i])){
+                    st.pop();
+                    destroyed = true;
+                    break;
+                }
+                // 3rd case -> stack top > current -> current is destroyed -> break
+                else{
+                    destroyed = true;
+                    break;
+                }
+            }
+            if(!destroyed){
+                st.push(asteroids[i]);
+            }
+        }
+        while(!st.empty()){
+            vec.push_back(st.top());
+            st.pop();
+        }
+        reverse(vec.begin(),vec.end());
+        return vec;
+    }
+};
