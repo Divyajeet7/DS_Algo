@@ -1,0 +1,46 @@
+class Solution {
+public:
+    // Idea:
+    // Use a monotonic decreasing stack (store indices).
+    // When we find a taller bar, we resolve "valleys" and compute trapped water.
+
+    int trap(vector<int>& height) {
+        stack<int> st;              // stores indices of bars
+        int n = height.size();
+        int totalVolume = 0;
+
+        for (int i = 0; i < n; i++) {
+
+            // If current bar is taller than stack top,
+            // we found a RIGHT boundary → start resolving valleys
+            while (!st.empty() && height[i] > height[st.top()]) {
+
+                int mid = st.top();   // valley bottom
+                st.pop();
+
+                // If stack becomes empty, no LEFT boundary exists
+                // → cannot trap water
+                if (st.empty()) {
+                    break;
+                }
+
+                int left = st.top();  // left boundary
+                int right = i;        // current index = right boundary
+
+                // Width between left and right boundaries
+                int width = right - left - 1;
+
+                // Height of trapped water is limited by shorter boundary
+                int heightOfWater = min(height[left], height[right]) - height[mid];
+
+                // Add water trapped over this valley
+                totalVolume += heightOfWater * width;
+            }
+
+            // Push current index as a potential boundary
+            st.push(i);
+        }
+
+        return totalVolume;
+    }
+};
