@@ -1,0 +1,96 @@
+/******************************************************************************
+
+Welcome to GDB Online.
+  GDB online is an online compiler and debugger tool for C, C++, Python, PHP, Ruby, 
+  C#, OCaml, VB, Perl, Swift, Prolog, Javascript, Pascal, COBOL, HTML, CSS, JS
+  Code, Compile, Run and Debug online from anywhere in world.
+
+*******************************************************************************/
+#include <bits/stdc++.h>
+
+using namespace std;
+
+struct Node{
+    int val;
+    Node* left;
+    Node* right;
+    Node(int x){
+        val = x;
+        left = right = NULL;
+    }
+};
+
+void preInPost(Node* root, vector<int>&preOrder, vector<int>&inOrder, vector<int>&postOrder){
+    stack<pair<Node*,int>>st;
+    st.push({root,1});
+    while(!st.empty()){
+        auto it = st.top();
+        st.pop();
+        // If it.second == 1 THEN PUSH IN PREODER, it.second++ and push back to it to stack, and if there exists a LEFT of it.first insert it in stack
+        if(it.second == 1){
+            preOrder.push_back(it.first->val);
+            it.second++;
+            st.push(it);
+            if(it.first->left){
+                st.push({it.first->left,1});
+            }
+        }
+        // If it.second == 2 THEN PUSH IN INORDER, it.second++ and push back it to stack, and if there exists a RIGHT of it.first insert it in stack
+        else if(it.second == 2){
+            inOrder.push_back(it.first->val);
+            it.second++;
+            st.push(it);
+            if(it.first->right){
+                st.push({it.first->right,1});
+            }
+        }
+        // If it.second == 3 THEN PUSH IN POSTORDER
+        else{
+            postOrder.push_back(it.first->val);
+        }
+    }
+    return;
+}
+
+int main()
+{
+    Node* root = new Node(1);
+    Node* child1 = new Node(2);
+    Node* child2 = new Node(3);
+    Node* child3 = new Node(4);
+    Node* child4 = new Node(5);
+    Node* child5 = new Node(6);
+    Node* child6 = new Node(7);
+    
+    root->left = child1;
+    root->left->left = child2;
+    root->left->right = child3;
+    
+    root->right = child4;
+    root->right->left = child5;
+    root->right->right = child6;
+    
+    vector<int>preOrder;
+    vector<int>inOrder;
+    vector<int>postOrder;
+    
+    preInPost(root,preOrder,inOrder,postOrder);
+    
+    cout<<"PRE ORDER :"<<endl;
+    for(auto x:preOrder){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+    cout<<"IN ORDER :"<<endl;
+    for(auto x:inOrder){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+    cout<<"POST ORDER :"<<endl;
+    for(auto x:postOrder){
+        cout<<x<<" ";
+    }
+    cout<<endl;
+
+    return 0;
+}
