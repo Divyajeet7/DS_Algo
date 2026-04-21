@@ -1,0 +1,64 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    // Constructor to initialize a new node
+    Node(int val) {
+        data = val;
+        left = NULL;
+        right = NULL;
+    }
+};
+*/
+
+class Solution {
+  public:
+    void leftBoundary(Node* root, vector<int>&vec){
+        if(root == NULL)return;
+        if(root->left == NULL && root->right == NULL){
+            return;
+        }
+        vec.push_back(root->data);
+        if(root->left){
+            leftBoundary(root->left,vec);
+        }
+        else{
+            leftBoundary(root->right,vec);
+        }
+    }
+    void leafNodes(Node* root, vector<int>&vec){
+        if(root == NULL)return;
+        if(root->left == NULL && root->right == NULL){
+            vec.push_back(root->data);
+        }
+        leafNodes(root->left,vec);
+        leafNodes(root->right,vec);
+    }
+    void rightBoundary(Node* root, vector<int>&vec){
+        if(root == NULL)return;
+        if(root->left == NULL && root->right == NULL){
+            return;
+        }
+        if(root->right){
+            rightBoundary(root->right,vec);
+        }
+        else{
+            rightBoundary(root->left,vec);
+        }
+        vec.push_back(root->data);
+    }
+    vector<int> boundaryTraversal(Node *root) {
+        // code here
+        vector<int>vec;
+        if(root == NULL)return vec;
+        vec.push_back(root->data);
+        leftBoundary(root->left,vec);
+        leafNodes(root->left,vec);
+        leafNodes(root->right,vec);
+        rightBoundary(root->right,vec);
+        return vec;
+    }
+};
