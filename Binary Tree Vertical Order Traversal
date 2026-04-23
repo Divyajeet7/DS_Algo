@@ -1,0 +1,80 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ * };
+ */
+
+class Solution {
+public:
+
+    // DFS traversal to assign (row, col) to each node
+    void inOrder(TreeNode* root,
+                 vector<pair<int,pair<int,int>>>& vec,
+                 int row,
+                 int col){
+
+        if(root == NULL) return;
+
+        // go left → row+1, col-1
+        inOrder(root->left, vec, row+1, col-1);
+
+        // store: {value, {row, col}}
+        vec.push_back({root->val, {row, col}});
+
+        // go right → row+1, col+1
+        inOrder(root->right, vec, row+1, col+1);
+    }
+
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> ans;
+        if(root == NULL) return ans;
+
+        vector<pair<int,pair<int,int>>> vec;
+
+        // Step 1: collect all nodes with coordinates
+        inOrder(root, vec, 0, 0);
+
+        // Step 2: sort by:
+        // 1. column (left → right)
+        // 2. row (top → bottom)
+        // 3. value (tie-breaker)
+        sort(vec.begin(), vec.end(), [](auto &a, auto &b){
+            if(a.second.second != b.second.second)
+                return a.second.second < b.second.second; // col
+
+            if(a.second.first != b.second.first)
+                return a.second.first < b.second.first;   // row
+
+            return a.first < b.first;                     // value
+        });
+
+        // Step 3: group elements with same column
+        vector<int> temp;
+        int prevCol = INT_MIN; // track current column
+
+        for(auto &x : vec){
+            int col = x.second.second;
+            int val = x.first;
+
+            // new column encountered → push previous group
+            if(col != prevCol){
+                if(!temp.empty()){
+                    ans.push_back(temp);
+                }
+                temp.clear();
+                prevCol = col;
+            }
+
+            // add value to current column group
+            temp.push_back(val);
+        }
+
+        // push last column group
+        if(!temp.empty()) ans.push_back(temp);
+
+        return ans;
+    }
+};
