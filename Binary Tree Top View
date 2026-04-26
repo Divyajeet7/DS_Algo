@@ -1,0 +1,47 @@
+/*
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    vector<int> topView(Node *root) {
+        // code here
+        // unordered map stores column as key and node as value
+        // During level order traversal we store the first encountered node of a column
+        vector<int>ans;
+        if(root == NULL)return ans;
+        queue<pair<Node*,int>>q;
+        q.push({root,0});
+        map<int,int>mp; // not unordered so col can be ascending
+        while(!q.empty()){
+            auto x = q.front();
+            q.pop();
+            Node* node = x.first;
+            int col = x.second;
+            if(mp.find(col) == mp.end()){ // if col not encountered before we store the node's value
+                mp[col] = node->data;
+            }
+            if(node->left){
+                q.push({node->left,col-1});
+            }
+            if(node->right){
+                q.push({node->right,col+1});
+            }
+        }
+        for(auto &it : mp){
+            ans.push_back(it.second); // pushing nodes value into our ans vector
+        }
+        return ans;
+    }
+};
