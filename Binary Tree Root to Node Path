@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool dfs(TreeNode* root,vector<TreeNode*>&vec,int data){
+        if(!root)return false;
+        vec.push_back(root);
+        if(root->val == data){
+            return true;
+        }
+        if(dfs(root->left,vec,data) || dfs(root->right,vec,data))return true; // If the given node exists in either the left or right subtree
+        vec.pop_back(); // If it does not then we remove the extra trasversed node as this path does not contain the given node
+        return false;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        vector<TreeNode*>path1;
+        dfs(root,path1,p->val);
+    }
+};
