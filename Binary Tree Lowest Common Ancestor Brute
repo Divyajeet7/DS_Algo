@@ -1,0 +1,37 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool dfs(TreeNode* root,vector<TreeNode*>&vec,int data){ // Finding root to node path
+        if(!root)return false;
+        vec.push_back(root);
+        if(root->val == data){
+            return true;
+        }
+        if(dfs(root->left,vec,data) || dfs(root->right,vec,data))return true;
+        vec.pop_back();
+        return false;
+    }
+    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+        //Brute -> Finding root to node paths of p & q and finding the lca
+        vector<TreeNode*>path1;
+        vector<TreeNode*>path2;
+        dfs(root,path1,p->val);
+        dfs(root,path2,q->val);
+        TreeNode* lca = root;
+        int size = min(path1.size(),path2.size());
+        for(int i=0;i<size;i++){ // Comparing both paths to get the lowest common ancestor
+            if(path1[i] == path2[i]){
+                lca = path1[i];
+            }
+        }
+        return lca;
+    }
+};
