@@ -1,0 +1,35 @@
+/*
+
+class Node {
+public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = nullptr;
+        right = nullptr;
+    }
+};
+
+*/
+
+class Solution {
+  public:
+    bool isLeaf(Node* root){
+        if(!root->left && !root->right){
+            return true;
+        }
+        return false;
+    }
+    bool isSumProperty(Node *root) {
+        // code here
+        if(!root)return true;
+        if(isLeaf(root))return true;
+        int leftSum = root->left == NULL ? 0 : root->left->data;
+        int rightSum = root->right == NULL ? 0 : root->right->data;
+        if(root->data != leftSum + rightSum)return false;
+        return isSumProperty(root->left) && isSumProperty(root->right);
+    }
+};
