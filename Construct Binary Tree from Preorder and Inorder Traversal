@@ -1,0 +1,30 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* build(vector<int>& preorder,int preStart,int preEnd,vector<int>& inorder,int inStart,int inEnd,unordered_map<int,int>& inMap){ // Passing inMap by ref as it is never changed and only read
+        if(preStart > preEnd || inStart > inEnd)return NULL; // implies there are no elements to construct any subtree
+        TreeNode* root = new TreeNode(preorder[preStart]); // First element of preorder array is always the root
+        int inRoot = inMap[root->val]; // finding index of root in inorder array
+        int numsLeft = inRoot - inStart; // Number of elements to the left of root element in inorder array
+        root->left = build(preorder,preStart + 1,preStart+numsLeft, inorder, inStart, inRoot - 1, inMap); // left subtree elements in inorder and preorder array
+        root->right = build(preorder,preStart + numsLeft + 1,preEnd, inorder, inRoot + 1, inEnd, inMap);
+        return root;
+    }
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        unordered_map<int,int>inMap; // This hashmap contains inorder elements as key and their index as values
+        for(int i=0;i<inorder.size();i++){
+            inMap[inorder[i]] = i;
+        }
+        return build(preorder,0,preorder.size()-1,inorder,0,inorder.size()-1,inMap);
+    }
+};
