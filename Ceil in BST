@@ -1,0 +1,35 @@
+/*
+Definition for Node
+class Node {
+  public:
+    int data;
+    Node* left;
+    Node* right;
+
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};
+*/
+
+class Solution {
+  public:
+    int findCeil(Node* root, int x) {
+        // code here
+        int ceil = -1;
+        while(root != NULL){
+            if(root->data == x){
+                return root->data; // Found the lowest possible value which is >= x hence return it
+            }
+            if(root->data > x){ // Possible answer as it is greater than x
+                ceil = root->data;
+                root = root->left; // We keep searching for a better answer which is lower than current val
+            }
+            else{
+                root = root->right; // If curr val is lesser than x we obviously need a bigger val
+            }
+        }
+        return ceil;
+    }
+};
