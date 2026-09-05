@@ -1,0 +1,67 @@
+/* Structure of a Binary Search Tree node
+class Node {
+public:
+    int data;
+    Node *left, *right;
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};*/
+
+class Solution {
+  public:
+    void inOrder(Node* root,int &maxSize){
+        if(root == NULL)return;
+        inOrder(root->left,maxSize);
+        pair<bool,int>result = validateBst(root);
+        if(result.first == true)maxSize = max(maxSize,result.second);
+        inOrder(root->right,maxSize);
+    }
+    pair<bool,int> validateBst(Node* root){
+        int lastVal = INT_MIN;
+        int size = 0;
+        bool isValid = true;
+        Node* cur = root;
+        while(cur){
+            if(cur->left == NULL){
+                //push
+                if(cur->data <= lastVal){
+                    isValid = false;
+                }
+                size += 1;
+                lastVal = cur->data;
+                cur = cur->right;
+            }
+            else{
+                Node* prev = cur->left;
+                while(prev->right && prev->right != cur)prev = prev->right;
+                if(prev->right == NULL){
+                    prev->right = cur;
+                    cur = cur->left;
+                }
+                else{
+                    prev->right = NULL;
+                    //push
+                    if(cur->data <= lastVal){
+                        isValid = false;
+                    }
+                    size += 1;
+                    lastVal = cur->data;
+                    cur = cur->right;
+                }
+            }
+        }
+        // cout<<isValid<<size;
+        return {isValid,size};
+    }
+    int largestBst(Node *root) {
+        // code here
+        // Pass every node in validate function-> If it gets checked then store the BSTs size as max
+        int maxSize = 0;
+        inOrder(root,maxSize);
+        // Return max size
+        return maxSize;
+        
+    }
+};
