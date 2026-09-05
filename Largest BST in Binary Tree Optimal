@@ -1,0 +1,42 @@
+/* Structure of a Binary Search Tree node
+class Node {
+public:
+    int data;
+    Node *left, *right;
+    Node(int val) {
+        data = val;
+        left = right = nullptr;
+    }
+};*/
+class NodeValue {
+    public:
+        int maxNode, minNode, maxSize; // Data members
+        
+    NodeValue(int maxVal, int minVal, int size) { // Constructor
+        maxNode = maxVal;
+        minNode = minVal;
+        maxSize = size;
+    }
+};
+
+class Solution {
+  private:
+    NodeValue largestBSTSubtreeHelper(Node* root){
+        if(root == NULL)return NodeValue(INT_MIN, INT_MAX, 0); // We want parents to pass BST check hence we return safe values
+        // Post order traversal left->right->root
+        auto left = largestBSTSubtreeHelper(root->left);
+        auto right = largestBSTSubtreeHelper(root->right);
+        
+        if(left.maxNode < root->data && root->data < right.minNode){ // Implies the node->val is greater than largest value in left subtree and smaller than smallest value in right subtree
+            // It is a BST
+            return NodeValue(max(right.maxNode, root->data),min(left.minNode, root->data) , left.maxSize + right.maxSize + 1); // calculate my subtree's MAX, MIN, and SIZE and pass those three things to my parent
+        }
+        // Not a BST hence we return absurd values so parents fail BST check
+        return NodeValue(INT_MAX, INT_MIN, max(left.maxSize, right.maxSize));
+    }
+  public:
+    int largestBst(Node *root) {
+        // code here
+        return largestBSTSubtreeHelper(root).maxSize;
+    }
+};
